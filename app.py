@@ -1,8 +1,9 @@
 #start app 
 start_prompt=['A) View Todo Lists',"B) New Todo"]
-todos=['gym']
+todos=[] 
 
 def start_app():
+    load_saved_file()
     print('Reply with A or B\n----------------\n')
     for prompt in start_prompt:
         print(prompt)
@@ -22,12 +23,28 @@ def view_todo():
     else:
         print('----------------\nYour ToDo Lists : ')
         for todo in todos:
-            print(f"{str(todos.index(todo)+1)}.{todo}")
+            print(f"{(todos.index(todo)+1)}.{todo}")
 
 #Add new todo
 def add_new_todo(todo):
     todos.append(todo)
     view_todo()
+    save_todo()
+    
 
+# save to a file    
+def save_todo():
+    with open('Todos.txt','w') as file:
+     for todo in todos:
+        file.write(todo +"\n")
+
+# load saved file
+def load_saved_file():
+    try:
+     with open('Todos.txt','r') as file:
+        for line in file:
+            todos.append(line.strip()) 
+    except FileNotFoundError:
+       pass
 
 start_app()
